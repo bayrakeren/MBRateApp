@@ -16,6 +16,8 @@ public struct MBRateUsInfo {
     public var subtitle = "Please rate your experience"
     public var positive = "Awesome!"
     public var negative = "Darn. we should have been better."
+    public var positiveButtonText = "Rate in the AppStore"
+    public var negativeButtonText = "Send us feedback"
     public var backgroundColor = UIColor.white
     public var positiveButtonColor = UIColor.blue
     public var negativeButtonColor = UIColor.blue
@@ -81,7 +83,7 @@ class MBRateUsViewController : UIViewController {
         }
         
         for button: UIButton in self.starButtons {
-            button.setImage(starImageOff, for: UIControlState())
+            button.setImage(starImageOff, for: UIControl.State())
         }
         
         self.imageView.image = self.rateUsInfo?.titleImage
@@ -91,13 +93,15 @@ class MBRateUsViewController : UIViewController {
     
 
     @IBAction func dismiss(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: { _ in self.dismissBlock?()})
+        dismiss(animated: true) {
+            self.dismissBlock?()
+        }
     }
     
     @IBAction func starTouchedDown(_ sender: UIButton) {
         for button: UIButton in self.starButtons {
             if button.tag <= sender.tag {
-                button.setImage(starImageOn, for: UIControlState())
+                button.setImage(starImageOn, for: UIControl.State())
             }
         }
     }
@@ -105,7 +109,7 @@ class MBRateUsViewController : UIViewController {
     @IBAction func starTouchedOutside(_ sender: UIButton) {
         for button: UIButton in self.starButtons {
             if button.tag <= sender.tag {
-                button.setImage(starImageOff, for: UIControlState())
+                button.setImage(starImageOff, for: UIControl.State())
             }
         }
     }
@@ -114,13 +118,13 @@ class MBRateUsViewController : UIViewController {
         self.starsMask.isHidden = false
         if sender.tag >= 4 {
             self.resultLabel.text = self.rateUsInfo?.positive
-            self.callToActionButton.setTitle("Rate in the AppStore", for: UIControlState())
+            self.callToActionButton.setTitle(self.rateUsInfo?.positiveButtonText, for: UIControl.State())
             self.shouldRate = true
             self.callToActionButton.backgroundColor = self.rateUsInfo?.positiveButtonColor
         }
         else {
             self.resultLabel.text = self.rateUsInfo?.negative
-            self.callToActionButton.setTitle("Send us feedback", for: UIControlState())
+            self.callToActionButton.setTitle(self.rateUsInfo?.negativeButtonText, for: UIControl.State())
             self.shouldRate = false
             self.callToActionButton.backgroundColor = self.rateUsInfo?.negativeButtonColor
         }
